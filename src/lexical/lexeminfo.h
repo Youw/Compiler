@@ -1,0 +1,7 @@
+#ifndef LEXEMINFO
+#define LEXEMINFO
+
+enum class LexemType {DELIMITER, IDENTIFIER, LITERAL, COMMENT, ERROR};
+
+#endif // LEXEMINFO
+
