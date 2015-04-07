@@ -11,7 +11,7 @@ void prinLexem(const Lexem& lexem, ostream& output)
 
 int main()
 {
-  string input_name = STR(Keyboard);
+  string input_name = STR("Keyboard");
   LexicalAnalyzer lexems(std::wcin);
   ostream& output = std::wcout;
 

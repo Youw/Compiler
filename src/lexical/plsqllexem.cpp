@@ -1,5 +1,6 @@
 #include "plsqllexem.h"
 
+#include "plsqldelimeters.h"
 
 ErrorLexem::ErrorLexem(const string& error_info): info(error_info)
 {
@@ -16,19 +17,34 @@ const string& ErrorLexem::name() const
   return info;
 }
 
-DelemiterLexem::DelemiterLexem(const string& delimiter): delemiter(delimiter)
+DelimiterLexem::DelimiterLexem(const string& delimiter): delemiter(delimiter)
 {
 
 }
 
-LexemType DelemiterLexem::type() const
+LexemType DelimiterLexem::type() const
 {
   return LexemType::DELIMITER;
 }
 
-const string& DelemiterLexem::name() const
+const string& DelimiterLexem::name() const
 {
   return delemiter;
+}
+
+bool DelimiterLexem::canBeDelimiter(character c)
+{
+  return DELEMITER_FIRST_PARTS.find(c)!=DELEMITER_FIRST_PARTS.end();
+}
+
+bool DelimiterLexem::isDelimiter(const string& s)
+{
+  return DELEMITER_NAMES.find(s)!=DELEMITER_NAMES.end();
+}
+
+bool DelimiterLexem::canHasSecondChar(character c)
+{
+  return DELEMITER_FIRST_PARTS.at(c);
 }
 
 IdentifierLexem::IdentifierLexem(const string& identifier): identifier(identifier)

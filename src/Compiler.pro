@@ -7,7 +7,9 @@ SOURCES += \
     lexical/lexicalanalyzer.cpp \
     main.cpp \
     lexical/lexem.cpp \
-    lexical/plsqllexem.cpp
+    lexical/plsqllexem.cpp \
+    lexical/plsqllexemconstants.cpp \
+    lexical/lexeminfo.cpp
 
 HEADERS += \
     lexical/lexicalanalyzer.h \

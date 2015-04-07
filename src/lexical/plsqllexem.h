@@ -14,14 +14,18 @@ public:
   const string& name() const override;
 };
 
-class DelemiterLexem: public Lexem
+class DelimiterLexem: public Lexem
 {
   string delemiter;
 public:
-  DelemiterLexem(const string& delimiter);
+  DelimiterLexem(const string& delimiter);
 
   LexemType type() const override;
   const string& name() const override;
+
+  static bool canBeDelimiter(character c);
+  static bool canHasSecondChar(character c);
+  static bool isDelimiter(const string& s);
 };
 
 class IdentifierLexem: public Lexem
