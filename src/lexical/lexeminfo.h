@@ -18,11 +18,7 @@ namespace std {
   };
 }
 
-extern const std::unordered_map<LexemType,string> LexemTypeNames;
-
-inline const string& LexemTypeName(LexemType type) {
-  return LexemTypeNames.at(type);
-}
+const string& LexemTypeName(LexemType type);
 
 #endif // LEXEMINFO
 

@@ -1,13 +1,14 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <istream>
+#include <iostream>
 #include <string>
 
 using string=std::wstring;
 using istream=std::wistream;
 using ostream=std::wostream;
 using character=wchar_t;
+static auto& cout=std::wcout;
 
 template<typename type>
 inline string to_string(type param)

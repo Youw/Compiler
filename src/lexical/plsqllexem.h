@@ -4,6 +4,8 @@
 #include <lexical/lexeminfo.h>
 #include <lexical/lexem.h>
 
+#include "plsqlliteral.h"
+
 class ErrorLexem: public Lexem
 {
   string info;
@@ -38,6 +40,18 @@ public:
   const string& name() const override;
 };
 
+class KeyWordLexem: public IdentifierLexem
+{
+public:
+  using IdentifierLexem::IdentifierLexem;
+};
+
+class ReservedWordLexem: public IdentifierLexem
+{
+public:
+  using IdentifierLexem::IdentifierLexem;
+};
+
 class CommentLexem: public Lexem
 {
   string text;
@@ -56,6 +70,7 @@ public:
 
   LexemType type() const override;
   const string& name() const override;
+  virtual Literal literalType() const = 0;
 };
 
 class LiteralStringLexem: public LiteralLexem
@@ -64,24 +79,41 @@ public:
   LiteralStringLexem(const string& literal_string);
 
   const string& value();
+
+  Literal literalType() const override;
+};
+
+class LiteralBooleanLexem: public LiteralLexem
+{
+  Boolean bool_val;
+public:
+  LiteralBooleanLexem(Boolean literal_bool, const string& name);
+
+  Boolean value();
+
+  Literal literalType() const override;
 };
 
 class LiteralIntegerLexem: public LiteralLexem
 {
   long int_val;
 public:
-  LiteralIntegerLexem(const long& literal_int);
+  LiteralIntegerLexem(const long& literal_int, const string& name);
 
   const long& value();
+
+  Literal literalType() const override;
 };
 
 class LiteralFloatLexem: public LiteralLexem
 {
   double float_val;
 public:
-  LiteralFloatLexem(const double& literal_float);
+  LiteralFloatLexem(const double& literal_float, const string& name);
 
   const double& value();
+
+  Literal literalType() const override;
 };
 
 #endif // PLSQLLEXEM_H

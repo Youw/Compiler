@@ -103,8 +103,28 @@ const string& LiteralStringLexem::value()
   return name();
 }
 
-LiteralIntegerLexem::LiteralIntegerLexem(const long& literal_int):
-  LiteralLexem(to_string(literal_int)),
+Literal LiteralStringLexem::literalType() const {
+  return Literal::STRING;
+}
+
+LiteralBooleanLexem::LiteralBooleanLexem(Boolean literal_bool, const string &name):
+  LiteralLexem(name),
+  bool_val(literal_bool)
+{
+
+}
+
+Boolean LiteralBooleanLexem::value()
+{
+  return bool_val;
+}
+
+Literal LiteralBooleanLexem::literalType() const {
+  return Literal::BOOLEAN;
+}
+
+LiteralIntegerLexem::LiteralIntegerLexem(const long& literal_int, const string &name):
+  LiteralLexem(name),
   int_val(literal_int)
 {
 
@@ -115,8 +135,12 @@ const long& LiteralIntegerLexem::value()
   return int_val;
 }
 
-LiteralFloatLexem::LiteralFloatLexem(const double& literal_float):
-  LiteralLexem(to_string(literal_float)),
+Literal LiteralIntegerLexem::literalType() const {
+  return Literal::INTEGER;
+}
+
+LiteralFloatLexem::LiteralFloatLexem(const double& literal_float, const string &name):
+  LiteralLexem(name),
   float_val(literal_float)
 {
 
@@ -125,4 +149,8 @@ LiteralFloatLexem::LiteralFloatLexem(const double& literal_float):
 const double& LiteralFloatLexem::value()
 {
   return float_val;
+}
+
+Literal LiteralFloatLexem::literalType() const {
+  return Literal::FLOAT;
 }

@@ -1,31 +1,39 @@
 #include <lexical/lexicalanalyzer.h>
+#include <lexical/plsqllexem.h>
+#include <lexical/plsqlliteral.h>
 #include <iostream>
+#include <fstream>
 
 #include "config.h"
 
-void prinLexem(const Lexem& lexem, ostream& output)
+void prinLexem(const LexemPtr& lexem, ostream& output)
 {
-  output << "Readed lexem: " << LexemTypeName(lexem.type()) << " Name: < "
-             << lexem.name() << " > At" << std::endl;
+  output << "Readed lexem: " << LexemTypeName(lexem->type());
+  if(lexem->type()==LexemType::LITERAL) {
+      output << ' ' << to_string(std::dynamic_pointer_cast<LiteralLexem>(lexem)->literalType());
+    }
+  output << " Name: < "
+             << lexem->name() << " > At:" << lexem->pos.row << ':' << lexem->pos.col << std::endl;
 }
 
 int main()
 {
-  string input_name = STR("Keyboard");
-  LexicalAnalyzer lexems(std::wcin);
-  ostream& output = std::wcout;
+  string input_name = STR("T:/1.txt");
+  std::wifstream f("T:/1.txt");
+  LexicalAnalyzer lexems(f);
+  ostream& output = cout;
 
   try {
     while(true) {
         LexemPtr lexem = lexems.nextLexem();
-        prinLexem(*lexem,output);
+        prinLexem(lexem,output);
       }
-  } catch (LexicalExceptionEndOfStream&) {
+  } catch (const LexicalExceptionEndOfStream&) {
     output << input_name
            << ':' << lexems.currentReadPos().row
            << ':' << lexems.currentReadPos().column << ": "
            <<"End of file reached." << std::endl;
-  } catch (LexicalException& e) {
+  } catch (const LexicalException& e) {
     output << input_name
            << ':' << lexems.currentReadPos().row
            << ':' << lexems.currentReadPos().column << ": "

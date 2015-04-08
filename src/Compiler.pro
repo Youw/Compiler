@@ -17,7 +17,9 @@ HEADERS += \
     lexical/lexeminfo.h \
     config.h \
     lexical/plsqllexem.h \
-    lexical/plsqldelimeters.h
+    lexical/plsqldelimeters.h \
+    lexical/plsqlidentifiers.h \
+    lexical/plsqlliteral.h
 
 CONFIG += C++11
 
