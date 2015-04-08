@@ -12,6 +12,12 @@ void prinLexem(const LexemPtr& lexem, ostream& output)
   if(lexem->type()==LexemType::LITERAL) {
       output << ' ' << to_string(std::dynamic_pointer_cast<LiteralLexem>(lexem)->literalType());
     }
+  if(dynamic_cast<KeyWordLexem*>(&*lexem)) {
+      output << " KEYWORD";
+    }
+  if(dynamic_cast<ReservedWordLexem*>(&*lexem)) {
+      output << " RESERVED_WORD";
+    }
   output << " Name: < "
              << lexem->name() << " > At:" << lexem->pos.row << ':' << lexem->pos.col << std::endl;
 }
