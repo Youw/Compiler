@@ -79,6 +79,10 @@ LexemPtr LexicalAnalyzer::nextLexem()
               lexem = readMultiLineComment();
               break;
             }
+          case Delimiter::MULTILINE_COMMENT_DELIMITER_END:{
+              throw LexicalException(string(STR("Uncomplete comment delimiter: "))+delimiter->name());
+              break;
+            }
           case Delimiter::QUOTED_IDENTIFIER_DELIMITER:{
               lexem = readQuotedIdentifier();
               break;
