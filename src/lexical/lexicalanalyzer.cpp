@@ -63,6 +63,13 @@ reading_newline:
 
 LexemPtr LexicalAnalyzer::nextLexem()
 {
+#define return_current_lexem current_lexem_index++;return lexems.back()
+
+  if(current_lexem_index+1<lexems.size())
+    {
+      return lexems[++current_lexem_index];
+    }
+
   character current_raw_character = getChar();
   character current_char = toupper(current_raw_character);
   begin_read_pos=current_read_pos;
@@ -106,24 +113,24 @@ LexemPtr LexicalAnalyzer::nextLexem()
       }
       lexem->pos = {begin_read_pos.row,begin_read_pos.column};
       lexems.push_back(lexem);
-      return lexems.back();
+      return_current_lexem;
     }
   if(isdigit(current_char)) {
       LexemPtr lexem = readNumber(current_char);
       lexem->pos = {begin_read_pos.row,begin_read_pos.column};
       lexems.push_back(lexem);
-      return lexems.back();
+      return_current_lexem;
     }
 
   if(isalpha(current_char)) {
       LexemPtr lexem = readIdentifier(current_char);
       lexem->pos = {begin_read_pos.row,begin_read_pos.column};
       lexems.push_back(lexem);
-      return lexems.back();
+      return_current_lexem;
     }
 
   throw LexicalException(string(STR("Illegal character: "))+current_raw_character);
-  return lexems.back();
+  return LexemPtr();
 }
 
 LexemPtr LexicalAnalyzer::readDelimiter(character current_char)
@@ -339,7 +346,21 @@ LexemPtr LexicalAnalyzer::currentLexem()
   if(!lexems.size())
     return LexemPtr(new ErrorLexem(L"No lexem readed yet."));
   else
-    return lexems.back();
+    return lexems[current_lexem_index];
+}
+
+unsigned LexicalAnalyzer::currentLexemIndex()
+{
+  return current_lexem_index;
+}
+
+void LexicalAnalyzer::setCurrentLexemIndex(unsigned index)
+{
+  if(index>lexems.size()-1)
+    {
+      throw LexicalExceptionLexemIndexOutOfRange(index);
+    }
+  current_lexem_index = index;
 }
 
 const decltype(LexicalAnalyzer::current_read_pos)& LexicalAnalyzer::currentReadPos()

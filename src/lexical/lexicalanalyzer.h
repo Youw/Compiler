@@ -29,6 +29,16 @@ public:
   }
 };
 
+class LexicalExceptionLexemIndexOutOfRange: public LexicalException
+{
+public:
+  LexicalExceptionLexemIndexOutOfRange(unsigned index=unsigned(-1)):
+    LexicalException(index==unsigned(-1)?STR("Lexem index out of range."):STR("Lexem index \"")+to_string(index)+STR("\" out of range."))
+  {
+
+  }
+};
+
 using LexemPtr=std::shared_ptr<Lexem>;
 
 class LexicalAnalyzer
@@ -40,11 +50,15 @@ class LexicalAnalyzer
     int row, column;
   } current_read_pos = {1,0}, begin_read_pos;
 
+  unsigned current_lexem_index = 0;
 public:
   LexicalAnalyzer(istream& input);
 
   LexemPtr nextLexem();
+
   LexemPtr currentLexem();
+  unsigned currentLexemIndex();
+  void setCurrentLexemIndex(unsigned index);
 
   const decltype(current_read_pos)& currentReadPos();
 
