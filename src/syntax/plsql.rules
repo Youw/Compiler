@@ -1,0 +1,21 @@
+S >>> { S } PLSQL_BLOCK
+PLSQL_BLOCK >>> ANON_BLOCK
+
+ANON_BLOCK >>>
+declare
+VARS
+BLOCK
+/
+
+VARS >>> { VARS } VAR
+
+VAR >>> idt TYPE { := const } ;
+
+BLOCK >>> 
+begin
+STATEMENTS
+end ;
+
+STATEMENTS >>> { STATEMENTS } STATEMENT
+
+STATEMENT >>> null ;

@@ -70,7 +70,7 @@ public:
 
   LexemType type() const override;
   const string& name() const override;
-  virtual Literal literalType() const = 0;
+  virtual Literal literalType() const;
 };
 
 class LiteralStringLexem: public LiteralLexem

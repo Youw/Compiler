@@ -2,7 +2,6 @@
 #define LEXICALANALYZER_H
 
 #include <deque>
-#include <memory>
 
 #include "config.h"
 #include "lexem.h"
@@ -38,8 +37,6 @@ public:
 
   }
 };
-
-using LexemPtr=std::shared_ptr<Lexem>;
 
 class LexicalAnalyzer
 {

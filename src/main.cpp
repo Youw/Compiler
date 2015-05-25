@@ -1,8 +1,11 @@
 #include <lexical/lexicalanalyzer.h>
 #include <lexical/plsqllexem.h>
 #include <lexical/plsqlliteral.h>
+#include <syntax/syntax.h>
+
 #include <iostream>
 #include <fstream>
+#include <QFile>
 
 #include "config.h"
 
@@ -24,6 +27,16 @@ void prinLexem(const LexemPtr& lexem, ostream& output)
 
 int main()
 {
+  QFile file_syntax(":/plsql.rules"); // this is a name of a file text1.txt sent from main method
+  if (!file_syntax.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+      return 1;
+  }
+  QTextStream syntax_input(&file_syntax);
+  Syntax syntax;
+
+  syntax.readRules(syntax_input);
+
   string input_name = STR("T:/1.txt");
   std::wifstream f("T:/1.txt");
   LexicalAnalyzer lexems(f);

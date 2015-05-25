@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <QString>
 
 using string=std::wstring;
 using istream=std::wistream;
@@ -14,6 +15,12 @@ template<typename type>
 inline string to_string(type param)
 {
   return std::to_wstring(param);
+}
+
+template<>
+inline string to_string(QString param)
+{
+  return param.toStdWString();
 }
 
 #define ADD_PREFIX(x,pre) pre##x

@@ -1,8 +1,9 @@
 #ifndef LEXEM_H
 #define LEXEM_H
 
-#include <config.h>
+#include <memory>
 
+#include <config.h>
 #include "lexeminfo.h"
 
 class Lexem
@@ -17,5 +18,7 @@ public:
 
   virtual ~Lexem();
 };
+
+using LexemPtr=std::shared_ptr<Lexem>;
 
 #endif // LEXEM_H

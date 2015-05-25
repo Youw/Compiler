@@ -92,6 +92,11 @@ const string& LiteralLexem::name() const
   return literal;
 }
 
+Literal LiteralLexem::literalType() const
+{
+  return Literal(-1);
+}
+
 LiteralStringLexem::LiteralStringLexem(const string& literal_string):
   LiteralLexem(literal_string)
 {
