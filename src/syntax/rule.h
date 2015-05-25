@@ -11,7 +11,7 @@
 class Rule
 {
   string rule_name;
-  std::vector<RuleEntity> produce;
+  std::vector<RuleEntityPtr> produce;
 public:
   Rule(const string& rule_name = STR(""));
   ~Rule();
@@ -19,7 +19,9 @@ public:
   bool operator<(const Rule& right) const;
 
   const string& name() const;
-  void addEntity(const RuleEntity& entity);
+  void addEntity(RuleEntityPtr entity);
+
+  void print() const;
 
   friend struct CompareRuleEntityRevers;
 };
@@ -36,12 +38,12 @@ struct CompareRuleEntityRevers
         return false;
       }
     while (!(l == left->produce.rend() || r == right->produce.rend())) {
-        bool eq = l->name() == r->name();
+        bool eq = (*l)->name() == (*r)->name();
         if (eq) {
             l++;
             r++;
           } else {
-            return l->name() < r->name();
+            return (*l)->name() < (*r)->name();
           }
       }
     return l != left->produce.rend();

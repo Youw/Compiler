@@ -11,7 +11,7 @@
 
 void prinLexem(const LexemPtr& lexem, ostream& output)
 {
-  output << "Readed lexem: " << LexemTypeName(lexem->type());
+  output << "Read lexem: " << LexemTypeName(lexem->type());
   if(lexem->type()==LexemType::LITERAL) {
       output << ' ' << to_string(std::dynamic_pointer_cast<LiteralLexem>(lexem)->literalType());
     }
@@ -36,6 +36,7 @@ int main()
   Syntax syntax;
 
   syntax.readRules(syntax_input);
+  syntax.print();
 
   string input_name = STR("T:/1.txt");
   std::wifstream f("T:/1.txt");

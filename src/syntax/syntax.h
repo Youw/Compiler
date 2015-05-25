@@ -17,6 +17,7 @@ public:
 
   void readRules(QTextStream &rule_input);
 
+  void print() const;
 private:
   static void insertEntity(RulePtr rule, const string& word);
 };

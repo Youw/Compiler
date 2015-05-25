@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <cctype>
+#include <iostream>
 
 #include <lexical/plsqldelimeters.h>
 #include <lexical/plsqlidentifiers.h>
@@ -57,7 +58,7 @@ void Syntax::insertEntity(RulePtr rule, const string& word)
 {
   if (isalpha(word[0])) {
       if (isupper(word[0])) {
-          rule->addEntity(RuleEntityNonTerminal(word));
+          rule->addEntity(RuleEntityPtr(new RuleEntityNonTerminal(word)));
         } else {
           LexemPtr lexem;
           if (word == STR("idt")) {
@@ -78,14 +79,29 @@ void Syntax::insertEntity(RulePtr rule, const string& word)
                   assert(this_terminal_not_implementer_yet);
                 }
             }
-          rule->addEntity(RuleEntityTerminal(lexem));
+          rule->addEntity(RuleEntityPtr(new RuleEntityTerminal(lexem)));
         }
     } else {
       if (word == STR("{") || word == STR("}")) {
-          rule->addEntity(RuleEntityExtra(word));
+          rule->addEntity(RuleEntityPtr(new RuleEntityExtra(word)));
         } else {
           LexemPtr lexem(new DelimiterLexem(word));
-          rule->addEntity(RuleEntityTerminal(lexem));
+          rule->addEntity(RuleEntityPtr(new RuleEntityTerminal(lexem)));
         }
+    }
+}
+
+void Syntax::print() const
+{
+  std::cout << "Rules in alphabetic:" << std::endl;
+  for (auto& rule: rules) {
+      std::cout << '\t';
+      rule->print();
+    }
+
+  std::cout << std::endl << "Reversed rules:" << std::endl;
+  for (auto& rule: revers_rules) {
+      std::cout << '\t';
+      rule->print();
     }
 }
