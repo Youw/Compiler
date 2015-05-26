@@ -10,7 +10,7 @@ class LexicalException
 {
   string message;
 public:
-  LexicalException(const string& s = STR("LexicalException")):message(s) {
+  LexicalException(const string& s = STR("LexicalException")):message(STR("LexicalException: ")+s) {
 
   }
 

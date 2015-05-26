@@ -5,7 +5,9 @@
 #include <vector>
 
 #include <config.h>
+#include <lexical/lexem.h>
 
+#include "syntaxtree.h"
 #include "ruleentity.h"
 
 class Rule
@@ -16,14 +18,15 @@ public:
   Rule(const string& rule_name = STR(""));
   ~Rule();
 
-  bool operator<(const Rule& right) const;
+  bool convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, LexemPtr next_lexem);
 
   const string& name() const;
   void addEntity(RuleEntityPtr entity);
 
-  void print() const;
-
+  bool operator<(const Rule& right) const;
   friend struct CompareRuleEntityRevers;
+
+  void print() const;
 };
 
 using RulePtr=std::shared_ptr<Rule>;

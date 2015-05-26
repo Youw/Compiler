@@ -15,6 +15,9 @@ public:
 
   RuleEntityType ruleType() const override;
   const string &name() const override;
+  LexemPtr getTerminal();
+
+  bool hasSameName(SyntaxTree* node) override;
 };
 
 #endif // RULEENTITYTERMINAL_H

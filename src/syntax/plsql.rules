@@ -3,7 +3,7 @@ PLSQL_BLOCK >>> ANON_BLOCK
 
 ANON_BLOCK >>>
 declare
-VARS
+{ VARS }
 BLOCK
 /
 

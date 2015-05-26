@@ -14,7 +14,9 @@ SOURCES += \
     syntax/rule.cpp \
     syntax/ruleentityterminal.cpp \
     syntax/ruleentitynonterminal.cpp \
-    syntax/ruleentityextra.cpp
+    syntax/ruleentityextra.cpp \
+    syntax/syntaxtree.cpp \
+    syntax/ruleentitynull.cpp
 
 HEADERS += \
     lexical/lexicalanalyzer.h \
@@ -30,7 +32,9 @@ HEADERS += \
     syntax/ruleentity.h \
     syntax/ruleentityterminal.h \
     syntax/ruleentitynonterminal.h \
-    syntax/ruleentityextra.h
+    syntax/ruleentityextra.h \
+    syntax/syntaxtree.h \
+    syntax/ruleentitynull.h
 
 CONFIG += C++11
 

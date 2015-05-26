@@ -1,5 +1,7 @@
 #include "ruleentitynonterminal.h"
 
+#include "syntaxtree.h"
+
 RuleEntityNonTerminal::RuleEntityNonTerminal(const string& name):
   entity_name(name)
 {
@@ -19,4 +21,10 @@ const string& RuleEntityNonTerminal::name() const
 RuleEntityType RuleEntityNonTerminal::ruleType() const
 {
   return RuleEntityType::NON_TERMINAL;
+}
+
+bool RuleEntityNonTerminal::hasSameName(SyntaxTree* node)
+{
+  RuleEntityNonTerminal* right = dynamic_cast<RuleEntityNonTerminal*>(node->tree_name.get());
+  return right && entity_name == right->name();
 }

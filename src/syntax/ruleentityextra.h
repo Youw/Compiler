@@ -12,6 +12,7 @@ public:
 
   RuleEntityType ruleType() const override;
   const string& name() const override;
+  bool hasSameName(SyntaxTree* node) override { (void)node; return false; }
 };
 
 #endif // RULEENTITYEXTRA_H

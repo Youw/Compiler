@@ -2,11 +2,13 @@
 #define CONFIG_H
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <QString>
 
 using string=std::wstring;
 using istream=std::wistream;
+using ifstream=std::wifstream;
 using ostream=std::wostream;
 using character=wchar_t;
 static auto& cout=std::wcout;

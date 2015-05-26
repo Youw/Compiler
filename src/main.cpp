@@ -38,27 +38,39 @@ int main()
   syntax.readRules(syntax_input);
   syntax.print();
 
-  string input_name = STR("T:/1.txt");
-  std::wifstream f("T:/1.txt");
+//  string input_name = STR("T:/1.txt");
+  ifstream f("T:/1.txt");
   LexicalAnalyzer lexems(f);
-  ostream& output = cout;
-
   try {
-    while(true) {
-        LexemPtr lexem = lexems.nextLexem();
-        prinLexem(lexem,output);
-      }
-  } catch (const LexicalExceptionEndOfStream&) {
-    output << input_name
-           << ':' << lexems.currentReadPos().row
-           << ':' << lexems.currentReadPos().column << ": "
-           <<"End of file reached." << std::endl;
+    syntax.buildTree(lexems);
+  } catch (const SyntaxException& e) {
+    cout << e.what() << std::endl;
   } catch (const LexicalException& e) {
-    output << input_name
-           << ':' << lexems.currentReadPos().row
-           << ':' << lexems.currentReadPos().column << ": "
-           << "Lexical error: " << e.what() << std::endl;
+    cout << e.what() << std::endl;
   }
+  syntax.getCurTree().print();
+//  ostream& output = cout;
+
+//  sy
+
+
+
+//  try {
+//    while(true) {
+//        LexemPtr lexem = lexems.nextLexem();
+//        prinLexem(lexem,output);
+//      }
+//  } catch (const LexicalExceptionEndOfStream&) {
+//    output << input_name
+//           << ':' << lexems.currentReadPos().row
+//           << ':' << lexems.currentReadPos().column << ": "
+//           <<"End of file reached." << std::endl;
+//  } catch (const LexicalException& e) {
+//    output << input_name
+//           << ':' << lexems.currentReadPos().row
+//           << ':' << lexems.currentReadPos().column << ": "
+//           << "Lexical error: " << e.what() << std::endl;
+//  }
 
   return 0;
 }

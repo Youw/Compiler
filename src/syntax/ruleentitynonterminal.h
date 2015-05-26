@@ -12,6 +12,8 @@ public:
 
   const string& name() const override;
   RuleEntityType ruleType() const override;
+
+  bool hasSameName(SyntaxTree* node) override;
 };
 
 #endif // RULEENTITYNONTERMINAL_H
