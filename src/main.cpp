@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
       return 1;
     }
 
-  QFile file_syntax(":/plsql.rules"); // this is a name of a file text1.txt sent from main method
+  QFile file_syntax(":/plsql.rules");
   if (!file_syntax.open(QIODevice::ReadOnly | QIODevice::Text))
   {
       return 1;
