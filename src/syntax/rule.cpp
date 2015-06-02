@@ -55,7 +55,7 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
                   break;
                 }
             }
-          if (extra_readed) {
+          if (extra_readed || i==0) {
               elements_proceed += elements_proceed_extra;
               s_c = s_c_e;
             } else {
@@ -75,6 +75,7 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
               return false;
             }
         }
+      if (s_c==s_e) break;
     }
    if (i>=0) {
         RuleEntityPtr entity = produce[i];
@@ -110,9 +111,15 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
             break;
           }
         case RuleEntityType::NON_TERMINAL: {
-            TreeElementNode* el = new TreeElementNode();
-            el->node = new SyntaxTree(std::move(*it_cur));
-            conv.nodes.push_back(TreeElementPtr(el));
+            if (it_cur->tree_name->name() == rule_name) {
+                for (auto&& node: it_cur->nodes) {
+                    conv.nodes.push_back(std::move(node));
+                  }
+              } else {
+                TreeElementNode* el = new TreeElementNode();
+                el->node = new SyntaxTree(std::move(*it_cur));
+                conv.nodes.push_back(TreeElementPtr(el));
+              }
             break;
           }
         case RuleEntityType::EXTRA: {

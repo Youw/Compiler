@@ -44,9 +44,6 @@ struct SyntaxTree
   std::vector<TreeElementPtr> nodes;
   RuleEntityPtr tree_name;
 
-  SyntaxTree();
-  ~SyntaxTree();
-
   void print(const std::string& prefix = "") const;
 };
 

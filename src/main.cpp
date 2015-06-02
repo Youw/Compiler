@@ -49,6 +49,7 @@ int main()
     cout << e.what() << std::endl;
   }
   syntax.getCurTree().print();
+  std::cout << std::endl;
 //  ostream& output = cout;
 
 //  sy

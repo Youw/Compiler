@@ -151,6 +151,7 @@ SyntaxTree& Syntax::buildTree(LexicalAnalyzer &lex)
             } else {
               throw SyntaxException(STR("Top stack must be single \"S\"!"));
             }
+          syntax_tree = std::move(stack[0]);
           return syntax_tree;
         }
       auto lexem = next_lexem;
