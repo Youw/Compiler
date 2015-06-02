@@ -46,6 +46,7 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
               extra = dynamic_cast<RuleEntityExtra*>(entity.get());
               if (extra) {
                   extra_readed = true;
+                  s_c_e--;
                   break;
                 }
               if (entity->hasSameName(&*s_c_e)) {

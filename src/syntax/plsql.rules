@@ -11,6 +11,36 @@ VARS >>> { VARS } VAR
 
 VAR >>> idt TYPE { := const } ;
 
+TYPE >>> numeric
+TYPE >>> pls_integer
+TYPE >>> binary_integer
+TYPE >>> binary_float
+TYPE >>> binary_double
+TYPE >>> number
+TYPE >>> natural
+TYPE >>> naturaln
+TYPE >>> positive
+TYPE >>> positiven
+TYPE >>> signtype
+TYPE >>> simple_integer
+TYPE >>> dec
+TYPE >>> decimal
+TYPE >>> float
+TYPE >>> int
+TYPE >>> integer
+TYPE >>> smallint
+TYPE >>> real
+TYPE >>> character
+TYPE >>> char
+TYPE >>> varchar2
+TYPE >>> raw
+TYPE >>> nchar
+TYPE >>> nvarchar2
+TYPE >>> long
+TYPE >>> rowid
+TYPE >>> urowid
+TYPE >>> boolean
+
 BLOCK >>> 
 begin
 STATEMENTS

@@ -25,6 +25,5 @@ RuleEntityType RuleEntityNonTerminal::ruleType() const
 
 bool RuleEntityNonTerminal::hasSameName(SyntaxTree* node)
 {
-  RuleEntityNonTerminal* right = dynamic_cast<RuleEntityNonTerminal*>(node->tree_name.get());
-  return right && entity_name == right->name();
+  return entity_name == node->tree_name->name();
 }

@@ -24,5 +24,6 @@ const string& RuleEntityNull::name() const
 
 bool RuleEntityNull::hasSameName(SyntaxTree* node)
 {
+  (void)node;
   return false;
 }

@@ -75,8 +75,7 @@ void Syntax::insertEntity(RulePtr rule, const string& word)
                 } else if (isReservedWord(tmp_word)) {
                   lexem.reset(new ReservedWordLexem(tmp_word));
                 } else {
-                  bool this_terminal_not_implementer_yet = false;
-                  assert(this_terminal_not_implementer_yet);
+                  lexem.reset(new IdentifierLexem(tmp_word));
                 }
             }
           rule->addEntity(RuleEntityPtr(new RuleEntityTerminal(lexem)));
@@ -125,49 +124,46 @@ SyntaxTree& Syntax::buildTree(LexicalAnalyzer &lex)
   } catch (const LexicalExceptionEndOfStream&) {
     throw SyntaxException(STR("Empty input"));
   }
-  try {
-    while(true) {
-        bool convolution_proceed = true;
-        while (convolution_proceed) {
-            convolution_proceed = false;
-            int last_proceed = 0;
-            for (auto rule: revers_rules) {
-                int current_proceed;
-                convolution_proceed = rule->convolute(stack, current_proceed, next_lexem);
-                if (convolution_proceed) {
-                    last_proceed = 0;
-                    current_proceed = 0;
-                    break;
-                  }
-                if (current_proceed<last_proceed) break;
-                last_proceed = current_proceed;
-              }
-          }
-
-        if (!next_lexem) {
-            throw LexicalExceptionEndOfStream();
-          }
-        auto lexem = next_lexem;
-        SyntaxTree el;
-        el.tree_name = RuleEntityPtr(new RuleEntityTerminal(lexem));
-        stack.push_back(std::move(el));
-
-        try {
-          next_lexem = lex.nextLexem();
-        } catch (const LexicalExceptionEndOfStream&) {
-          next_lexem = LexemPtr();
+  while(true) {
+      bool convolution_proceed = true;
+      while (convolution_proceed) {
+          convolution_proceed = false;
+          int last_proceed = 0;
+          for (auto rule: revers_rules) {
+              int current_proceed;
+              convolution_proceed = rule->convolute(stack, current_proceed, next_lexem);
+              if (convolution_proceed) {
+                  last_proceed = 0;
+                  current_proceed = 0;
+                  break;
+                }
+              if (current_proceed<last_proceed) break;
+              last_proceed = current_proceed;
+            }
         }
+
+      if (!next_lexem) {
+          if (stack.size() == 1) {
+              auto tree_top = std::dynamic_pointer_cast<RuleEntityNonTerminal>(stack[0].tree_name);
+              if (!(tree_top && tree_top->name() == STR("S"))) {
+                  throw SyntaxException(STR("Top stack must be \"S\"!"));
+                }
+            } else {
+              throw SyntaxException(STR("Top stack must be single \"S\"!"));
+            }
+          return syntax_tree;
+        }
+      auto lexem = next_lexem;
+      SyntaxTree el;
+      el.tree_name = RuleEntityPtr(new RuleEntityTerminal(lexem));
+      stack.push_back(std::move(el));
+
+      try {
+        next_lexem = lex.nextLexem();
+      } catch (const LexicalExceptionEndOfStream&) {
+        next_lexem = LexemPtr();
       }
-  } catch (const LexicalExceptionEndOfStream&) {
-    if (stack.size() == 1) {
-        auto tree_top = std::dynamic_pointer_cast<RuleEntityNonTerminal>(stack[0].tree_name);
-        if (!(tree_top && tree_top->name() == STR("S"))) {
-            throw SyntaxException(STR("Top stack must be \"S\"!"));
-          }
-      } else {
-        throw SyntaxException(STR("Top stack must be single \"S\"!"));
-      }
-  }
+    }
 
   return syntax_tree;
 }

@@ -215,7 +215,7 @@ LexemPtr LexicalAnalyzer::readQuotedIdentifier()
   } catch(const LexicalExceptionEndOfStream&) {
     throw LexicalException(STR("ORA-01740: missing double quote in identifier"));
   }
-  return LexemPtr(new CommentLexem(buffer));
+  return LexemPtr(new LiteralStringLexem(buffer));
 }
 
 LexemPtr LexicalAnalyzer::readNumber(character current_char)

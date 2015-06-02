@@ -356,9 +356,9 @@ static const std::unordered_set<string> KEY_WORDS = {
   STR("ZONE")
 };
 
-bool isKeyword(const string& word)
+bool isKeyword(const string& identifier)
 {
-  return KEY_WORDS.find(word)!=KEY_WORDS.end();
+  return KEY_WORDS.find(identifier)!=KEY_WORDS.end();
 }
 
 static const std::unordered_set<string> RESERVED_WORDS = {
@@ -449,7 +449,7 @@ static const std::unordered_set<string> RESERVED_WORDS = {
   STR("WITH")
 };
 
-bool isReservedWord(const string& word)
+bool isReservedWord(const string& identifier)
 {
-  return RESERVED_WORDS.find(word)!=RESERVED_WORDS.end();
+  return RESERVED_WORDS.find(identifier)!=RESERVED_WORDS.end();
 }
