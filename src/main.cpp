@@ -25,8 +25,18 @@ void prinLexem(const LexemPtr& lexem, ostream& output)
              << lexem->name() << " > At:" << lexem->pos.row << ':' << lexem->pos.col << std::endl;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+  if (argc != 2) {
+      std::cout << "No input files!" << std::endl;
+      return 1;
+    }
+  ifstream f(argv[1]);
+  if (!f) {
+      std::cout << "Cannot open file: " << argv[1] << std::endl;
+      return 1;
+    }
+
   QFile file_syntax(":/plsql.rules"); // this is a name of a file text1.txt sent from main method
   if (!file_syntax.open(QIODevice::ReadOnly | QIODevice::Text))
   {
@@ -39,7 +49,6 @@ int main()
   syntax.print();
 
 //  string input_name = STR("T:/1.txt");
-  ifstream f("T:/1.txt");
   LexicalAnalyzer lexems(f);
   try {
     syntax.buildTree(lexems);
