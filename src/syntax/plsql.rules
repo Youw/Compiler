@@ -49,3 +49,9 @@ end ;
 STATEMENTS >>> { STATEMENTS } STATEMENT
 
 STATEMENT >>> null ;
+
+STATEMENT >>>
+for idt in { reverse } const .. const
+loop
+STATEMENTS
+end loop ;

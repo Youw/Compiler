@@ -229,9 +229,9 @@ LexemPtr LexicalAnalyzer::readNumber(character current_char)
       has_dot=true;
     }
   try {
-    int c;
-    do {
-        current_char = getChar();
+    int c = input.peek();
+    while(isdigit(c) || ((c==STR('.'))&&(!has_dot))) {
+        current_char = getRawChar();
         if(current_char==STR('.')) {
             has_dot=true;
           } else {
@@ -245,7 +245,7 @@ LexemPtr LexicalAnalyzer::readNumber(character current_char)
           }
         buffer+=(character)current_char;
         c = input.peek();
-      } while(isdigit(c) || ((c==STR('.'))&&(!has_dot)));
+      }
   } catch(const LexicalExceptionEndOfStream&) {
 
   }
