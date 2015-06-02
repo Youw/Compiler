@@ -52,10 +52,6 @@ int main()
   std::cout << std::endl;
 //  ostream& output = cout;
 
-//  sy
-
-
-
 //  try {
 //    while(true) {
 //        LexemPtr lexem = lexems.nextLexem();

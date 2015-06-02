@@ -42,10 +42,24 @@ void Syntax::readRules(QTextStream& rule_input)
           rule.reset(new Rule(prew_word));
 
           readWord;
+        } else if (word == STR("<<<")) {
+          string saved_prev_word = prew_word;
+          readWord;
+          bool must_be = true;
+          if (word == STR("!")) {
+              must_be = false;
+              readWord;
+            }
+          insertNextTerm(rule,word,must_be);
+          word = saved_prev_word;
+        } else if (word == STR("<,<")) {
+          string saved_prev_word = prew_word;
+          readWord;
+          insertNextTerm(rule,word,false);
+          word = saved_prev_word;
         } else {
           insertEntity(rule,prew_word);
         }
-
       prew_word = word;
       readWord;
     }
@@ -90,6 +104,29 @@ void Syntax::insertEntity(RulePtr rule, const string& word)
     }
 }
 
+void Syntax::insertNextTerm(RulePtr rule, const string& word, bool must_be)
+{
+  if (isalpha(word[0])) {
+      LexemPtr lexem;
+      string tmp_word = word;
+      for (unsigned i=0; i<tmp_word.size(); i++) {
+          tmp_word[i] = toupper(tmp_word[i]);
+        }
+      if (isKeyword(tmp_word)) {
+          lexem.reset(new KeyWordLexem(tmp_word));
+        } else if (isReservedWord(tmp_word)) {
+          lexem.reset(new ReservedWordLexem(tmp_word));
+        } else {
+          lexem.reset(new IdentifierLexem(tmp_word));
+        }
+      rule->addNextSymbol(lexem,must_be);
+
+    } else {
+      LexemPtr lexem(new DelimiterLexem(word));
+      rule->addNextSymbol(lexem,must_be);
+    }
+}
+
 void Syntax::print() const
 {
   std::cout << "Rules in alphabetic:" << std::endl;
@@ -128,17 +165,17 @@ SyntaxTree& Syntax::buildTree(LexicalAnalyzer &lex)
       bool convolution_proceed = true;
       while (convolution_proceed) {
           convolution_proceed = false;
-          int last_proceed = 0;
+//          int last_proceed = 0;
           for (auto rule: revers_rules) {
               int current_proceed;
               convolution_proceed = rule->convolute(stack, current_proceed, next_lexem);
               if (convolution_proceed) {
-                  last_proceed = 0;
+//                  last_proceed = 0;
                   current_proceed = 0;
                   break;
                 }
-              if (current_proceed<last_proceed) break;
-              last_proceed = current_proceed;
+//              if (current_proceed<last_proceed) break;
+//              last_proceed = current_proceed;
             }
         }
 

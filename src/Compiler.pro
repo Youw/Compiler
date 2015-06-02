@@ -16,7 +16,7 @@ SOURCES += \
     syntax/ruleentitynonterminal.cpp \
     syntax/ruleentityextra.cpp \
     syntax/syntaxtree.cpp \
-    syntax/ruleentitynull.cpp
+    syntax/plsqltypes.cpp
 
 HEADERS += \
     lexical/lexicalanalyzer.h \
@@ -34,7 +34,7 @@ HEADERS += \
     syntax/ruleentitynonterminal.h \
     syntax/ruleentityextra.h \
     syntax/syntaxtree.h \
-    syntax/ruleentitynull.h
+    syntax/plsqltypes.h
 
 CONFIG += C++11
 

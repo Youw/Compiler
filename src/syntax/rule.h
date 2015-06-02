@@ -14,6 +14,8 @@ class Rule
 {
   string rule_name;
   std::vector<RuleEntityPtr> produce;
+  std::vector<LexemPtr> next_symbols;
+  bool must_be;
 public:
   Rule(const string& rule_name = STR(""));
   ~Rule();
@@ -22,6 +24,7 @@ public:
 
   const string& name() const;
   void addEntity(RuleEntityPtr entity);
+  void addNextSymbol(LexemPtr symbol, bool must_be);
 
   bool operator<(const Rule& right) const;
   friend struct CompareRuleEntityRevers;

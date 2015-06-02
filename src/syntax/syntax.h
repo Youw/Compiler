@@ -45,6 +45,7 @@ public:
   void print() const;
 private:
   static void insertEntity(RulePtr rule, const string& word);
+  static void insertNextTerm(RulePtr rule, const string& word, bool must_be);
 };
 
 #endif // SYNTAX_H

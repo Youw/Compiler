@@ -2,8 +2,8 @@
 #include "ruleentity.h"
 #include "ruleentityextra.h"
 #include "ruleentitynonterminal.h"
-#include "ruleentitynull.h"
 #include "ruleentityterminal.h"
+#include "plsqltypes.h"
 
 #include <lexical/plsqllexem.h>
 
@@ -26,7 +26,6 @@ Rule::~Rule()
 
 bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, LexemPtr next_lexem)
 {
-  (void)next_lexem;//for now
   elements_proceed = 0;
   auto s_c = stack.rbegin(), s_e = stack.rend();
 
@@ -98,6 +97,22 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
           }
      }
   if (i>=0) return false;
+  if (!next_symbols.empty()) {
+      if (must_be) {
+          if (next_symbols[0]->name() != next_lexem->name()) {
+              return false;
+            }
+        } else {
+          for (auto next_symbol: next_symbols) {
+              if (next_symbol->name() == STR("TYPE") && isPlSqlType(next_lexem->name())) {
+                  return false;
+                }
+              if (next_symbol->name() == next_lexem->name()) {
+                  return false;
+                }
+            }
+        }
+    }
   SyntaxTree conv;
   conv.tree_name = RuleEntityPtr(new RuleEntityNonTerminal(rule_name));
   std::vector<SyntaxTree>::iterator it_beg = stack.begin() + std::distance(s_c,s_e), it_cur;
@@ -150,19 +165,13 @@ const string& Rule::name() const
 
 void Rule::addEntity(RuleEntityPtr entity)
 {
-  if (produce.size() == 1 && entity->ruleType() == RuleEntityType::TERMINAL) {
-      if (produce[0]->ruleType() == RuleEntityType::TERMINAL) {
-          string tmp = produce[0]->name();
-          std::transform(tmp.begin(), tmp.end(),tmp.begin(), ::toupper);
-          if (tmp == STR("NULL")) {
-              DelimiterLexem* delim= dynamic_cast<DelimiterLexem*>(entity.get());
-              if (delim && delim->name() == STR(";")) {
-                  produce[0] == RuleEntityPtr(new RuleEntityNull());
-                }
-            }
-        }
-    }
   produce.push_back(entity);
+}
+
+void Rule::addNextSymbol(LexemPtr symbol, bool must_be)
+{
+  this->must_be = must_be;
+  next_symbols.push_back(symbol);
 }
 
 void Rule::print() const
@@ -170,6 +179,18 @@ void Rule::print() const
   std::wcout << rule_name << " >>> ";
   for(auto& entry: produce) {
       std::wcout << entry->name() << " ";
+    }
+  if (!next_symbols.empty()) {
+      std::cout << " <<< ";
+      if (!must_be) {
+          std::cout << " ! ";
+        }
+      std::wcout << next_symbols[0]->name();
+      if (!must_be) {
+          for (unsigned i = 1; i < next_symbols.size(); i++) {
+              std::wcout << " , " << next_symbols[i]->name();
+            }
+        }
     }
   std::cout << std::endl;
 }

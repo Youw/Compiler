@@ -10,8 +10,7 @@ class SyntaxTree;
 enum class RuleEntityType {
   TERMINAL,
   NON_TERMINAL,
-  EXTRA,
-  T_NULL
+  EXTRA
 };
 
 class RuleEntity

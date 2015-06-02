@@ -9,37 +9,11 @@ BLOCK
 
 VARS >>> { VARS } VAR
 
-VAR >>> idt TYPE { := const } ;
+VAR >>> idt type { := EXPRESSION } ;
 
-TYPE >>> numeric
-TYPE >>> pls_integer
-TYPE >>> binary_integer
-TYPE >>> binary_float
-TYPE >>> binary_double
-TYPE >>> number
-TYPE >>> natural
-TYPE >>> naturaln
-TYPE >>> positive
-TYPE >>> positiven
-TYPE >>> signtype
-TYPE >>> simple_integer
-TYPE >>> dec
-TYPE >>> decimal
-TYPE >>> float
-TYPE >>> int
-TYPE >>> integer
-TYPE >>> smallint
-TYPE >>> real
-TYPE >>> character
-TYPE >>> char
-TYPE >>> varchar2
-TYPE >>> raw
-TYPE >>> nchar
-TYPE >>> nvarchar2
-TYPE >>> long
-TYPE >>> rowid
-TYPE >>> urowid
-TYPE >>> boolean
+EXPRESSION >>> const <<< ! :=
+
+EXPRESSION >>> idt <<< ! := <,< type
 
 BLOCK >>> 
 begin
@@ -48,10 +22,21 @@ end ;
 
 STATEMENTS >>> { STATEMENTS } STATEMENT
 
-STATEMENT >>> null ;
-
 STATEMENT >>>
 for idt in { reverse } const .. const
 loop
 STATEMENTS
 end loop ;
+
+STATEMENT >>>
+idt := EXPRESSION ;
+
+EXPRESSION >>>
+CASE EXPRESSION
+CASE_STATEMENTS
+{ else EXPRESSION }
+end
+
+CASE_STATEMENTS >>> { CASE_STATEMENTS } CASE_STATEMENT
+
+CASE_STATEMENT >>> when EXPRESSION then EXPRESSION
