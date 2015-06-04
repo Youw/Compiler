@@ -24,7 +24,7 @@ Rule::~Rule()
 
 }
 
-bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, LexemPtr next_lexem)
+bool Rule::convolute(std::vector<SyntaxTreePtr>& stack, int& elements_proceed, LexemPtr next_lexem)
 {
   elements_proceed = 0;
   auto s_c = stack.rbegin(), s_e = stack.rend();
@@ -48,7 +48,7 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
                   s_c_e--;
                   break;
                 }
-              if (entity->hasSameName(&*s_c_e)) {
+              if (entity->hasSameName(s_c_e->get())) {
                   elements_proceed_extra++;
                 } else {
                   break;
@@ -68,7 +68,7 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
             }
         } else {
       //  //
-          if (entity->hasSameName(&*s_c)) {
+          if (entity->hasSameName(s_c->get())) {
               elements_proceed++;
             } else {
               return false;
@@ -113,28 +113,31 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
             }
         }
     }
-  SyntaxTree conv;
-  conv.tree_name = RuleEntityPtr(new RuleEntityNonTerminal(rule_name));
-  std::vector<SyntaxTree>::iterator it_beg = stack.begin() + std::distance(s_c,s_e), it_cur;
-  std::vector<SyntaxTree>::iterator it_end = stack.end();
-  for (it_cur = it_beg; it_cur!=it_end; it_cur++) {
-      switch (it_cur->tree_name->ruleType()) {
+  SyntaxTreePtr conv(new SyntaxTree);
+  conv->tree_name = RuleEntityPtr(new RuleEntityNonTerminal(rule_name));
+  std::vector<SyntaxTreePtr>::iterator it_beg = stack.begin() + std::distance(s_c,s_e), it_cur;
+  std::vector<SyntaxTreePtr>::iterator it_end = stack.end();
+
+  it_cur = it_beg;
+  if ((*it_cur)->tree_name->ruleType() == RuleEntityType::NON_TERMINAL && (*it_cur)->tree_name->name() == rule_name) {
+      for (auto&& node: (*it_cur)->nodes) {
+          conv->nodes.push_back(std::move(node));
+        }
+      it_cur++;
+    }
+
+  for (; it_cur!=it_end; it_cur++) {
+      switch ((*it_cur)->tree_name->ruleType()) {
       case RuleEntityType::TERMINAL: {
             TreeElementLeaf* el = new TreeElementLeaf();
-            el->leaf = it_cur->tree_name;
-            conv.nodes.push_back(TreeElementPtr(el));
+            el->leaf = (*it_cur)->tree_name;
+            conv->nodes.push_back(TreeElementPtr(el));
             break;
           }
         case RuleEntityType::NON_TERMINAL: {
-            if (it_cur->tree_name->name() == rule_name) {
-                for (auto&& node: it_cur->nodes) {
-                    conv.nodes.push_back(std::move(node));
-                  }
-              } else {
-                TreeElementNode* el = new TreeElementNode();
-                el->node = new SyntaxTree(std::move(*it_cur));
-                conv.nodes.push_back(TreeElementPtr(el));
-              }
+            TreeElementNode* el = new TreeElementNode();
+            el->node = *it_cur;
+            conv->nodes.push_back(TreeElementPtr(el));
             break;
           }
         case RuleEntityType::EXTRA: {
@@ -148,7 +151,7 @@ bool Rule::convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, Lexe
       }
     }
   stack.erase(it_beg,it_end);
-  stack.push_back(std::move(conv));
+  stack.push_back(conv);
 
   return true;
 }

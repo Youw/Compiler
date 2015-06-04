@@ -16,7 +16,8 @@ SOURCES += \
     syntax/ruleentitynonterminal.cpp \
     syntax/ruleentityextra.cpp \
     syntax/syntaxtree.cpp \
-    syntax/plsqltypes.cpp
+    syntax/plsqltypes.cpp \
+    context/context.cpp
 
 HEADERS += \
     lexical/lexicalanalyzer.h \
@@ -34,11 +35,12 @@ HEADERS += \
     syntax/ruleentitynonterminal.h \
     syntax/ruleentityextra.h \
     syntax/syntaxtree.h \
-    syntax/plsqltypes.h
+    syntax/plsqltypes.h \
+    context/context.h
 
 CONFIG += C++11
 
-INCLUDEPATH += $$PWD $$PWD/lexical $$PWD/syntax
+INCLUDEPATH += $$PWD $$PWD/lexical $$PWD/syntax $$PWD/context
 
 RESOURCES += \
     syntax/synatx.qrc

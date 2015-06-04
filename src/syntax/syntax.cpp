@@ -9,10 +9,11 @@
 #include <lexical/plsqllexem.h>
 #include <lexical/plsqlliteral.h>
 
-
 #include <ruleentityextra.h>
 #include <ruleentitynonterminal.h>
 #include <ruleentityterminal.h>
+
+#include <QTextStream>
 
 Syntax::Syntax()
 {
@@ -142,16 +143,16 @@ void Syntax::print() const
     }
 }
 
-SyntaxTree& Syntax::buildTree(LexicalAnalyzer &lex)
+SyntaxTreePtr& Syntax::buildTree(LexicalAnalyzer &lex)
 {
-  syntax_tree.nodes.clear();
+  syntax_tree.reset(new SyntaxTree);
   stack.clear();
   LexemPtr next_lexem;
   try {
     auto lexem = lex.nextLexem();
-    SyntaxTree el;
-    el.tree_name = RuleEntityPtr(new RuleEntityTerminal(lexem));
-    stack.push_back(std::move(el));
+    SyntaxTreePtr el(new SyntaxTree);
+    el->tree_name = RuleEntityPtr(new RuleEntityTerminal(lexem));
+    stack.push_back(el);
 
     try {
       next_lexem = lex.nextLexem();
@@ -181,20 +182,22 @@ SyntaxTree& Syntax::buildTree(LexicalAnalyzer &lex)
 
       if (!next_lexem) {
           if (stack.size() == 1) {
-              auto tree_top = std::dynamic_pointer_cast<RuleEntityNonTerminal>(stack[0].tree_name);
+              auto tree_top = std::dynamic_pointer_cast<RuleEntityNonTerminal>(stack[0]->tree_name);
               if (!(tree_top && tree_top->name() == STR("S"))) {
+                  dumpStack();
                   throw SyntaxException(STR("Top stack must be \"S\"!"));
                 }
             } else {
+              dumpStack();
               throw SyntaxException(STR("Top stack must be single \"S\"!"));
             }
-          syntax_tree = std::move(stack[0]);
+          syntax_tree = stack[0];
           return syntax_tree;
         }
       auto lexem = next_lexem;
-      SyntaxTree el;
-      el.tree_name = RuleEntityPtr(new RuleEntityTerminal(lexem));
-      stack.push_back(std::move(el));
+      SyntaxTreePtr el(new SyntaxTree);
+      el->tree_name = RuleEntityPtr(new RuleEntityTerminal(lexem));
+      stack.push_back(el);
 
       try {
         next_lexem = lex.nextLexem();
@@ -206,7 +209,17 @@ SyntaxTree& Syntax::buildTree(LexicalAnalyzer &lex)
   return syntax_tree;
 }
 
-SyntaxTree& Syntax::getCurTree()
+void Syntax::dumpStack() const
+{
+    std::cout << "<<< Current stack: >>>" << std::endl;
+    for (auto& el: stack) {
+        el->print();
+        std::cout << std::endl;
+      }
+    std::cout << "<<< End stack dump >>>" << std::endl;
+}
+
+SyntaxTreePtr& Syntax::getCurTree()
 {
   return syntax_tree;
 }

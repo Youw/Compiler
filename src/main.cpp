@@ -2,10 +2,12 @@
 #include <lexical/plsqllexem.h>
 #include <lexical/plsqlliteral.h>
 #include <syntax/syntax.h>
+#include <context/context.h>
 
 #include <iostream>
 #include <fstream>
 #include <QFile>
+#include <QTextStream>
 
 #include "config.h"
 
@@ -54,11 +56,25 @@ int main(int argc, char* argv[])
     syntax.buildTree(lexems);
   } catch (const SyntaxException& e) {
     cout << e.what() << std::endl;
+    return 1;
   } catch (const LexicalException& e) {
     cout << e.what() << std::endl;
+    return 1;
   }
-  syntax.getCurTree().print();
+  syntax.getCurTree()->print();
   std::cout << std::endl;
+
+  Context context;
+
+  context.parseBlocks(syntax.getCurTree());
+
+  std::cout << "Found Blocks in syntax tree:" << std::endl;
+  for (auto block: context.currentBlocks()) {
+      std::cout << "\t<<< Block id = " << block->id() << " >>>" << std::endl;
+      block->block->print("\t");
+      std::cout << std::endl << "\t<<< End Block >>>" << std::endl;
+    }
+
 //  ostream& output = cout;
 
 //  try {

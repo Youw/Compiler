@@ -20,7 +20,7 @@ public:
   Rule(const string& rule_name = STR(""));
   ~Rule();
 
-  bool convolute(std::vector<SyntaxTree>& stack, int& elements_proceed, LexemPtr next_lexem);
+  bool convolute(std::vector<SyntaxTreePtr> &stack, int& elements_proceed, LexemPtr next_lexem);
 
   const string& name() const;
   void addEntity(RuleEntityPtr entity);

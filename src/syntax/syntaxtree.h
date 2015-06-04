@@ -29,14 +29,14 @@ struct TreeElementLeaf: public TreeElement
 };
 
 class SyntaxTree;
+using SyntaxTreePtr=std::shared_ptr<SyntaxTree>;
 
 struct TreeElementNode: public TreeElement
 {
-  SyntaxTree* node = 0;
+  SyntaxTreePtr node;
   TreeElementType type() override;
 
   void print(const std::string& prefix) const override;
-  ~TreeElementNode();
 };
 
 struct SyntaxTree
@@ -46,5 +46,6 @@ struct SyntaxTree
 
   void print(const std::string& prefix = "") const;
 };
+
 
 #endif // SYNTAXTREE_H

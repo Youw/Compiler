@@ -7,10 +7,10 @@
 #include <lexical/lexem.h>
 #include <lexical/lexicalanalyzer.h>
 
-#include <QTextStream>
-
 #include <set>
 #include <vector>
+
+class QTextStream;
 
 class SyntaxException
 {
@@ -25,27 +25,28 @@ public:
   }
 };
 
-
 class Syntax
 {
   std::multiset<RulePtr> rules;
   std::multiset<RulePtr,CompareRuleEntityRevers> revers_rules;
-  SyntaxTree syntax_tree;
+  SyntaxTreePtr syntax_tree;
 
-  std::vector<SyntaxTree> stack;
+  std::vector<SyntaxTreePtr> stack;
 public:
   Syntax();
   ~Syntax();
 
   void readRules(QTextStream &rule_input);
 
-  SyntaxTree& buildTree(LexicalAnalyzer &lex);
-  SyntaxTree& getCurTree();
+  SyntaxTreePtr& buildTree(LexicalAnalyzer &lex);
+  SyntaxTreePtr &getCurTree();
 
   void print() const;
 private:
   static void insertEntity(RulePtr rule, const string& word);
   static void insertNextTerm(RulePtr rule, const string& word, bool must_be);
+
+  void dumpStack() const;
 };
 
 #endif // SYNTAX_H
