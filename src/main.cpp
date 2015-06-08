@@ -52,19 +52,18 @@ int main(int argc, char* argv[])
 
   LexicalAnalyzer lexems(f);
 //    auto input_name = argv[1];
-//    ostream& output = cout;
 //    try {
 //      while(true) {
 //          LexemPtr lexem = lexems.nextLexem();
-//          prinLexem(lexem,output);
+//          prinLexem(lexem,cout);
 //        }
 //    } catch (const LexicalExceptionEndOfStream&) {
-//      output << input_name
+//      cout << input_name
 //             << ':' << lexems.currentReadPos().row
 //             << ':' << lexems.currentReadPos().column << ": "
 //             <<"End of file reached." << std::endl;
 //    } catch (const LexicalException& e) {
-//      output << input_name
+//      cout << input_name
 //             << ':' << lexems.currentReadPos().row
 //             << ':' << lexems.currentReadPos().column << ": "
 //             << "Lexical error: " << e.what() << std::endl;

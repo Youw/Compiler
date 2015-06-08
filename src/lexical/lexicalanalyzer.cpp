@@ -61,6 +61,17 @@ reading_newline:
   return c;
 }
 
+LexemPtr LexicalAnalyzer::nextLexemSkipComment()
+{
+  LexemPtr result;
+  std::shared_ptr<CommentLexem> comment;
+  do {
+      result = nextLexem();
+      comment = std::dynamic_pointer_cast<CommentLexem>(result);
+    } while (comment);
+  return result;
+}
+
 LexemPtr LexicalAnalyzer::nextLexem()
 {
 #define return_current_lexem current_lexem_index++;return lexems.back()

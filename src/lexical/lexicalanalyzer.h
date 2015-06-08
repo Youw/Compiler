@@ -52,6 +52,7 @@ public:
   LexicalAnalyzer(istream& input);
 
   LexemPtr nextLexem();
+  LexemPtr nextLexemSkipComment();
 
   LexemPtr currentLexem();
   unsigned currentLexemIndex();

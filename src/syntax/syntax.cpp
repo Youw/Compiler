@@ -149,13 +149,13 @@ SyntaxTreePtr& Syntax::buildTree(LexicalAnalyzer &lex)
   stack.clear();
   LexemPtr next_lexem;
   try {
-    auto lexem = lex.nextLexem();
+    auto lexem = lex.nextLexemSkipComment();
     SyntaxTreePtr el(new SyntaxTree);
     el->tree_name = RuleEntityPtr(new RuleEntityTerminal(lexem));
     stack.push_back(el);
 
     try {
-      next_lexem = lex.nextLexem();
+      next_lexem = lex.nextLexemSkipComment();
     } catch (const LexicalExceptionEndOfStream&) {
       next_lexem = LexemPtr();
     }
@@ -200,7 +200,7 @@ SyntaxTreePtr& Syntax::buildTree(LexicalAnalyzer &lex)
       stack.push_back(el);
 
       try {
-        next_lexem = lex.nextLexem();
+        next_lexem = lex.nextLexemSkipComment();
       } catch (const LexicalExceptionEndOfStream&) {
         next_lexem = LexemPtr();
       }
