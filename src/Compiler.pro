@@ -17,7 +17,8 @@ SOURCES += \
     syntax/ruleentityextra.cpp \
     syntax/syntaxtree.cpp \
     syntax/plsqltypes.cpp \
-    context/context.cpp
+    context/context.cpp \
+    codegenerator/codegenerator.cpp
 
 HEADERS += \
     lexical/lexicalanalyzer.h \
@@ -36,7 +37,8 @@ HEADERS += \
     syntax/ruleentityextra.h \
     syntax/syntaxtree.h \
     syntax/plsqltypes.h \
-    context/context.h
+    context/context.h \
+    codegenerator/codegenerator.h
 
 CONFIG += C++11
 
