@@ -66,6 +66,7 @@ public:
   std::vector<PlSQLBlockPtr>& parseBlocks(SyntaxTreePtr tree);
   std::vector<PlSQLBlockPtr>& currentBlocks();
   void parseVariablesInCurrentBlocks();
+  void printVariablesInCurrentBlocks();
 private:
   void parseBlocksInner(SyntaxTreePtr &tree);
   static SyntaxTreePtr findVars(SyntaxTreePtr tree);

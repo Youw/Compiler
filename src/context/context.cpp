@@ -173,22 +173,15 @@ void Context::checkAndFillVarialeUse(std::vector<VarInfoPtr> &variables, TreeEle
       auto node = std::dynamic_pointer_cast<TreeElementNode>(body_element);
       checkAndFillVarialeUse(variables,node->node);
     }
-//  if (tree->tree_name->name() == STR("BLOCK")) {
-//      auto block_node = std::dynamic_pointer_cast<RuleEntityNonTerminal>(tree->tree_name);
-//      if (block_node) {
-//          return tree;
-//        } else {
-//          throw ContextException(STR("Wrong syntax tree - variables not found!"));
-//        }
-//    } else {
-//      for (auto node: tree->nodes) {
-//          auto child_node = std::dynamic_pointer_cast<TreeElementNode>(node);
-//          if (child_node) {
-//              auto child = findBodyBlock(child_node->node);
-//              if (child) {
-//                  return child;
-//                }
-//            }
-//        }
-//    }
+}
+
+void Context::printVariablesInCurrentBlocks()
+{
+  for (PlSQLBlockPtr& block: blocks) {
+      std::cout << "------------- Begin block info -------------" << std::endl << "Block id = " << block->id() << std::endl;
+      for (VarInfoPtr& var: block->variables) {
+          std::wcout << "Variable name: " << var->name->name() << ";\t\tVariable type: " << var->type->name() << ";\t\t Use count: " << var->uses.size() << ';' << std::endl;
+        }
+      std::cout << "-------------  End block info  -------------" << std::endl;
+    }
 }

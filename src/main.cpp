@@ -87,6 +87,7 @@ int main(int argc, char* argv[])
   try {
     context.parseBlocks(syntax.getCurTree());
     context.parseVariablesInCurrentBlocks();
+    context.printVariablesInCurrentBlocks();
   } catch (const ContextException& e) {
     cout << e.what() << std::endl;
     return 1;
