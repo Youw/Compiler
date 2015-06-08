@@ -96,7 +96,8 @@ int main(int argc, char* argv[])
 
   CodeGenerator code;
   code.generate(syntax.getCurTree());
-  cout << STR("Generated code:") << std::endl
+  cout << std::endl
+       << STR("Generated code:") << std::endl
        << code << std::endl;
 
   return 0;

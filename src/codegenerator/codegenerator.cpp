@@ -87,11 +87,11 @@ string CodeGenerator::generate(const SyntaxTreePtr &tree)
             auto for_var = std::dynamic_pointer_cast<TreeElementLeaf>(tree->nodes[1])->leaf->name();
             bool is_reversed = tree->nodes[3]->type() == TreeElementType::LEAF;
             auto from = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[is_reversed ? 4 : 3])->node);
-            auto to = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[is_reversed ? 8 : 7])->node);
+            auto to = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[is_reversed ? 6 : 5])->node);
             auto start_label = getNewLabel();
             Emit(STR("= ") + for_var + STR(" ") + from);
             Emit(start_label + STR(":"));
-            generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[is_reversed ? 6 : 5])->node);
+            generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[is_reversed ? 8 : 7])->node);
             Emit(STR("+ ") + for_var + (is_reversed ? STR(" -1") : STR(" 1")));
             auto loop_condition = Emit(STR("== ") + for_var + STR(" ") + to);
             Emit(STR("IFFALSE ") + loop_condition + STR(" ") + start_label);
