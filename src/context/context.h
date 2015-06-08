@@ -2,9 +2,11 @@
 #define CONTEXT_H
 
 #include <memory>
+#include <set>
 #include <vector>
 
 #include <syntaxtree.h>
+#include <lexem.h>
 
 #include <config.h>
 
@@ -25,15 +27,26 @@ public:
 
 struct VarInfo
 {
-  string name;
-  string type;
+  LexemPtr name;
+  LexemPtr type;
+  std::vector<LexemPtr> uses;
+
+  VarInfo(LexemPtr name = LexemPtr(), LexemPtr type = LexemPtr(), std::vector<LexemPtr> uses = std::vector<LexemPtr>()):
+    name(name),
+    type(type),
+    uses(uses)
+  {
+
+  }
 };
+
+using VarInfoPtr=std::shared_ptr<VarInfo>;
 
 struct PlSQLBlock
 {
-  PlSQLBlock(SyntaxTreePtr& block);
+  PlSQLBlock(SyntaxTreePtr block);
   SyntaxTreePtr block;
-  std::vector<VarInfo> variables;
+  std::vector<VarInfoPtr> variables;
 
   bool operator<(const PlSQLBlock& right);
   int id() const;
@@ -50,10 +63,15 @@ class Context
 public:
   Context();
 
-  std::vector<PlSQLBlockPtr>& parseBlocks(SyntaxTreePtr& tree);
+  std::vector<PlSQLBlockPtr>& parseBlocks(SyntaxTreePtr tree);
   std::vector<PlSQLBlockPtr>& currentBlocks();
+  void parseVariablesInCurrentBlocks();
 private:
   void parseBlocksInner(SyntaxTreePtr &tree);
+  static SyntaxTreePtr findVars(SyntaxTreePtr tree);
+  static SyntaxTreePtr findBodyBlock(SyntaxTreePtr tree);
+  static void checkAndFillVarialeUse(std::vector<VarInfoPtr>& variables, SyntaxTreePtr block_body);
+  static void checkAndFillVarialeUse(std::vector<VarInfoPtr> &variables, TreeElementPtr body_element);
 };
 
 #endif // CONTEXT_H

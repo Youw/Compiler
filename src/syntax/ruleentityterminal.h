@@ -9,6 +9,7 @@ class RuleEntityTerminal : public RuleEntity
 {
   LexemPtr lexem;
 public:
+  bool is_identifier = false;
 
   RuleEntityTerminal(LexemPtr lexem);
   ~RuleEntityTerminal();

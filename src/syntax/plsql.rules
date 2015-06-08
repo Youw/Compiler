@@ -13,7 +13,7 @@ VAR >>> idt type { := EXPRESSION } ;
 
 EXPRESSION >>> const <<< ! :=
 
-EXPRESSION >>> idt <<< ! := <,< type
+EXPRESSION >>> idt <<< ! := <,< type <,< in
 
 BLOCK >>> 
 begin
@@ -23,7 +23,7 @@ end ;
 STATEMENTS >>> { STATEMENTS } STATEMENT
 
 STATEMENT >>>
-for idt in { reverse } const .. const
+for idt in { reverse } EXPRESSION .. EXPRESSION
 loop
 STATEMENTS
 end loop ;

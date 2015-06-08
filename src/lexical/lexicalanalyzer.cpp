@@ -65,9 +65,9 @@ LexemPtr LexicalAnalyzer::nextLexem()
 {
 #define return_current_lexem current_lexem_index++;return lexems.back()
 
-  if(current_lexem_index+1<lexems.size())
+  if(current_lexem_index<lexems.size())
     {
-      return lexems[++current_lexem_index];
+      return lexems[current_lexem_index++];
     }
 
   character current_raw_character = getChar();
@@ -215,7 +215,7 @@ LexemPtr LexicalAnalyzer::readQuotedIdentifier()
   } catch(const LexicalExceptionEndOfStream&) {
     throw LexicalException(STR("ORA-01740: missing double quote in identifier"));
   }
-  return LexemPtr(new LiteralStringLexem(buffer));
+  return LexemPtr(new IdentifierLexem(buffer));
 }
 
 LexemPtr LexicalAnalyzer::readNumber(character current_char)
@@ -230,7 +230,8 @@ LexemPtr LexicalAnalyzer::readNumber(character current_char)
     }
   try {
     int c = input.peek();
-    while(isdigit(c) || ((c==STR('.'))&&(!has_dot))) {
+    bool dot_readed = false;
+    while(isdigit(c) || (dot_readed&&(!has_dot))) {
         current_char = getRawChar();
         if(current_char==STR('.')) {
             has_dot=true;
@@ -245,6 +246,14 @@ LexemPtr LexicalAnalyzer::readNumber(character current_char)
           }
         buffer+=(character)current_char;
         c = input.peek();
+        if (c==STR('.')) {
+            auto dot = std::dynamic_pointer_cast<DelimiterLexem>(readDelimiter(c));
+            if (DELEMITER_NAMES.at(dot->name())==Delimiter::COMPONENT_INDICATOR) {// COMPONENT_INDICATOR - dot "."
+                dot_readed = true;
+              } else {
+                dot_readed = false;
+              }
+          }
       }
   } catch(const LexicalExceptionEndOfStream&) {
 

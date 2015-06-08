@@ -50,8 +50,26 @@ int main(int argc, char* argv[])
   syntax.readRules(syntax_input);
   syntax.print();
 
-//  string input_name = STR("T:/1.txt");
   LexicalAnalyzer lexems(f);
+//    auto input_name = argv[1];
+//    ostream& output = cout;
+//    try {
+//      while(true) {
+//          LexemPtr lexem = lexems.nextLexem();
+//          prinLexem(lexem,output);
+//        }
+//    } catch (const LexicalExceptionEndOfStream&) {
+//      output << input_name
+//             << ':' << lexems.currentReadPos().row
+//             << ':' << lexems.currentReadPos().column << ": "
+//             <<"End of file reached." << std::endl;
+//    } catch (const LexicalException& e) {
+//      output << input_name
+//             << ':' << lexems.currentReadPos().row
+//             << ':' << lexems.currentReadPos().column << ": "
+//             << "Lexical error: " << e.what() << std::endl;
+//    }
+//    lexems.setCurrentLexemIndex(0);
   try {
     syntax.buildTree(lexems);
   } catch (const SyntaxException& e) {
@@ -66,33 +84,13 @@ int main(int argc, char* argv[])
 
   Context context;
 
-  context.parseBlocks(syntax.getCurTree());
-
-  std::cout << "Found Blocks in syntax tree:" << std::endl;
-  for (auto block: context.currentBlocks()) {
-      std::cout << "\t<<< Block id = " << block->id() << " >>>" << std::endl;
-      block->block->print("\t");
-      std::cout << std::endl << "\t<<< End Block >>>" << std::endl;
-    }
-
-//  ostream& output = cout;
-
-//  try {
-//    while(true) {
-//        LexemPtr lexem = lexems.nextLexem();
-//        prinLexem(lexem,output);
-//      }
-//  } catch (const LexicalExceptionEndOfStream&) {
-//    output << input_name
-//           << ':' << lexems.currentReadPos().row
-//           << ':' << lexems.currentReadPos().column << ": "
-//           <<"End of file reached." << std::endl;
-//  } catch (const LexicalException& e) {
-//    output << input_name
-//           << ':' << lexems.currentReadPos().row
-//           << ':' << lexems.currentReadPos().column << ": "
-//           << "Lexical error: " << e.what() << std::endl;
-//  }
+  try {
+    context.parseBlocks(syntax.getCurTree());
+    context.parseVariablesInCurrentBlocks();
+  } catch (const ContextException& e) {
+    cout << e.what() << std::endl;
+    return 1;
+  }
 
   return 0;
 }
