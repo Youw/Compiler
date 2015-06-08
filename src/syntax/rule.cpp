@@ -179,21 +179,21 @@ void Rule::addNextSymbol(LexemPtr symbol, bool must_be)
 
 void Rule::print() const
 {
-  std::wcout << rule_name << " >>> ";
+  cout << rule_name << " >>> ";
   for(auto& entry: produce) {
-      std::wcout << entry->name() << " ";
+      cout << entry->name() << " ";
     }
   if (!next_symbols.empty()) {
-      std::cout << " <<< ";
+      cout << " <<< ";
       if (!must_be) {
-          std::cout << " ! ";
+          cout << " ! ";
         }
-      std::wcout << next_symbols[0]->name();
+      cout << next_symbols[0]->name();
       if (!must_be) {
           for (unsigned i = 1; i < next_symbols.size(); i++) {
-              std::wcout << " , " << next_symbols[i]->name();
+              cout << " , " << next_symbols[i]->name();
             }
         }
     }
-  std::cout << std::endl;
+  cout << std::endl;
 }

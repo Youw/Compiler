@@ -130,15 +130,15 @@ void Syntax::insertNextTerm(RulePtr rule, const string& word, bool must_be)
 
 void Syntax::print() const
 {
-  std::cout << "Rules in alphabetic:" << std::endl;
+  cout << "Rules in alphabetic:" << std::endl;
   for (auto& rule: rules) {
-      std::cout << '\t';
+      cout << '\t';
       rule->print();
     }
 
-  std::cout << std::endl << "Reversed rules:" << std::endl;
+  cout << std::endl << "Reversed rules:" << std::endl;
   for (auto& rule: revers_rules) {
-      std::cout << '\t';
+      cout << '\t';
       rule->print();
     }
 }
@@ -211,12 +211,12 @@ SyntaxTreePtr& Syntax::buildTree(LexicalAnalyzer &lex)
 
 void Syntax::dumpStack() const
 {
-    std::cout << "<<< Current stack: >>>" << std::endl;
+    cout << "<<< Current stack: >>>" << std::endl;
     for (auto& el: stack) {
         el->print();
-        std::cout << std::endl;
+        cout << std::endl;
       }
-    std::cout << "<<< End stack dump >>>" << std::endl;
+    cout << "<<< End stack dump >>>" << std::endl;
 }
 
 SyntaxTreePtr& Syntax::getCurTree()

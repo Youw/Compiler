@@ -31,12 +31,12 @@ void prinLexem(const LexemPtr& lexem, ostream& output)
 int main(int argc, char* argv[])
 {
   if (argc != 2) {
-      std::cout << "No input files!" << std::endl;
+      cout << "No input files!" << std::endl;
       return 1;
     }
   ifstream f(argv[1]);
   if (!f) {
-      std::cout << "Cannot open file: " << argv[1] << std::endl;
+      cout << "Cannot open file: " << argv[1] << std::endl;
       return 1;
     }
 
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
     return 1;
   }
   syntax.getCurTree()->print();
-  std::cout << std::endl;
+  cout << std::endl;
 
   Context context;
 
