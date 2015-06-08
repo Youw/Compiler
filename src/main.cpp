@@ -3,6 +3,7 @@
 #include <lexical/plsqlliteral.h>
 #include <syntax/syntax.h>
 #include <context/context.h>
+#include <codegenerator/codegenerator.h>
 
 #include <iostream>
 #include <fstream>
@@ -92,6 +93,11 @@ int main(int argc, char* argv[])
     cout << e.what() << std::endl;
     return 1;
   }
+
+  CodeGenerator code;
+  code.generate(syntax.getCurTree());
+  cout << STR("Generated code:") << std::endl
+       << code << std::endl;
 
   return 0;
 }
