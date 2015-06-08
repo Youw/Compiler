@@ -178,10 +178,10 @@ void Context::checkAndFillVarialeUse(std::vector<VarInfoPtr> &variables, TreeEle
 void Context::printVariablesInCurrentBlocks()
 {
   for (PlSQLBlockPtr& block: blocks) {
-      std::cout << "------------- Begin block info -------------" << std::endl << "Block id = " << block->id() << std::endl;
+      cout << "------------- Begin block info -------------" << std::endl << "Block id = " << block->id() << std::endl;
       for (VarInfoPtr& var: block->variables) {
-          std::wcout << "Variable name: " << var->name->name() << ";\t\tVariable type: " << var->type->name() << ";\t\t Use count: " << var->uses.size() << ';' << std::endl;
+          cout << "Variable name: " << var->name->name() << ";\t\tVariable type: " << var->type->name() << ";\t\t Use count: " << var->uses.size() << ';' << std::endl;
         }
-      std::cout << "-------------  End block info  -------------" << std::endl;
+      cout << "-------------  End block info  -------------" << std::endl;
     }
 }

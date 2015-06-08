@@ -15,7 +15,7 @@ struct TreeElement
   virtual TreeElementType type();
   virtual ~TreeElement() { }
 
-  virtual void print(const std::string& prefix) const { (void)prefix; std::cout << "Debug: ERROR!!!";}
+  virtual void print(const string& prefix) const { (void)prefix; cout << "Debug: ERROR!!!";}
 };
 
 using TreeElementPtr=std::shared_ptr<TreeElement>;
@@ -25,7 +25,7 @@ struct TreeElementLeaf: public TreeElement
   RuleEntityPtr leaf;
   TreeElementType type() override;
 
-  void print(const std::string& prefix) const override;
+  void print(const string& prefix) const override;
 };
 
 class SyntaxTree;
@@ -36,7 +36,7 @@ struct TreeElementNode: public TreeElement
   SyntaxTreePtr node;
   TreeElementType type() override;
 
-  void print(const std::string& prefix) const override;
+  void print(const string& prefix) const override;
 };
 
 struct SyntaxTree
@@ -44,7 +44,7 @@ struct SyntaxTree
   std::vector<TreeElementPtr> nodes;
   RuleEntityPtr tree_name;
 
-  void print(const std::string& prefix = "") const;
+  void print(const string& prefix = STR("")) const;
 };
 
 

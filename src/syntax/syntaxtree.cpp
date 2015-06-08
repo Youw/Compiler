@@ -10,10 +10,10 @@ TreeElementType TreeElementLeaf::type()
   return TreeElementType::LEAF;
 }
 
-void TreeElementLeaf::print(const std::string& prefix) const
+void TreeElementLeaf::print(const string& prefix) const
 {
-  std::cout << prefix;
-  std::wcout << leaf->name();
+  cout << prefix;
+  cout << leaf->name();
 }
 
 TreeElementType TreeElementNode::type()
@@ -21,18 +21,18 @@ TreeElementType TreeElementNode::type()
   return TreeElementType::NODE;
 }
 
-void TreeElementNode::print(const std::string& prefix) const
+void TreeElementNode::print(const string& prefix) const
 {
   node->print(prefix);
 }
 
-void SyntaxTree::print(const std::string& prefix) const
+void SyntaxTree::print(const string& prefix) const
 {
-  std::cout << prefix;
-  std::wcout << (tree_name?tree_name->name():STR("Void tree"));
+  cout << prefix;
+  cout << (tree_name?tree_name->name():STR("Void tree"));
   for(auto& node: nodes) {
-      std::cout << std::endl;
-      node->print(prefix+"  ");
+      cout << std::endl;
+      node->print(prefix+STR("  "));
     }
 }
 
