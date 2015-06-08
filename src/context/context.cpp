@@ -80,6 +80,13 @@ void Context::parseVariablesInCurrentBlocks()
               if (!var_type) {
                   throw ContextException(STR("Wrong syntax tree - variable type not found!"));
                 }
+              const string& variable_name = std::dynamic_pointer_cast<RuleEntityTerminal>(var_name->leaf)->getTerminal()->name();
+              auto possible_var = std::find_if(block->variables.begin(),block->variables.end(),[&](const VarInfoPtr& var){
+                  return var->name->name() == variable_name;
+                });
+              if (possible_var != block->variables.end()) {
+                  throw ContextException(STR("at most one declaration for '")+variable_name+STR("' is permitted"));
+                }
               block->variables.push_back(VarInfoPtr(new VarInfo(std::dynamic_pointer_cast<RuleEntityTerminal>(var_name->leaf)->getTerminal(),
                                         std::dynamic_pointer_cast<RuleEntityTerminal>(var_type->leaf)->getTerminal())));
             }
