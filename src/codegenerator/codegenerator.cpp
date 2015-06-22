@@ -69,9 +69,11 @@ string CodeGenerator::generate(const SyntaxTreePtr &tree)
                 auto res = Emit(STR("== ") + selector + STR(" ") + caseExpr);
                 Emit(STR("IFTRUE ") + res + STR(" ") + caseLabels.back());
             }
-            auto elseExpr = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[4])->node);
-            Emit(STR("= _CASETEMP") + to_string(++case_temp_count) + STR(" ") + elseExpr);
-            Emit(STR("GOTO ") + endLabel);
+            if (tree->nodes.size() > 4) {
+                auto elseExpr = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[4])->node);
+                Emit(STR("= _CASETEMP") + to_string(++case_temp_count) + STR(" ") + elseExpr);
+                Emit(STR("GOTO ") + endLabel);
+              }
             int i = 0;
             for (auto case_statement : cases) {
                 auto node = std::dynamic_pointer_cast<TreeElementNode>(case_statement)->node;
