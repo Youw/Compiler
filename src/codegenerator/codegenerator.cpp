@@ -44,9 +44,18 @@ string CodeGenerator::generate(const SyntaxTreePtr &tree)
             Emit(STR("= ") + var_name + STR(" ") + expression);
         }
         break;
+    case hash_const(STR("BOOL_EXPRESSION")): {
+            auto op = std::dynamic_pointer_cast<TreeElementLeaf>(tree->nodes[1])->leaf->name();
+            auto expression1 = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[0])->node);
+            auto expression2 = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[2])->node);
+            return Emit(op + STR(" ") + expression1 + STR(" ") + expression2);
+        }
     case hash_const(STR("EXPRESSION")):
-        if (tree->nodes.size() == 1) // id or literal
+        if (tree->nodes.size() == 1) // id or literal or other expression
+          if (std::dynamic_pointer_cast<TreeElementLeaf>(tree->nodes[0]))
             return std::dynamic_pointer_cast<TreeElementLeaf>(tree->nodes[0])->leaf->name();
+          if (std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[0]))
+            return generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[0])->node);
         else if (std::dynamic_pointer_cast<TreeElementLeaf>(tree->nodes[0])->leaf->name() == STR("CASE")) {
             static int case_temp_count = 0;
             auto selector = generate(std::dynamic_pointer_cast<TreeElementNode>(tree->nodes[1])->node);

@@ -15,6 +15,10 @@ EXPRESSION >>> const <<< ! :=
 
 EXPRESSION >>> idt <<< ! := <,< type <,< in
 
+EXPRESSION >>> BOOL_EXPRESSION
+
+BOOL_EXPRESSION >>> EXPRESSION > EXPRESSION
+
 BLOCK >>> 
 begin
 STATEMENTS
