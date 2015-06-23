@@ -5,11 +5,16 @@
 
 #include <lexical/lexem.h>
 
+class VarInfo;
+class RuleEntityVariable;
+
 class RuleEntityTerminal : public RuleEntity
 {
   LexemPtr lexem;
 public:
-  bool is_identifier = false;
+  bool isVariable();
+  RuleEntityVariable* getVariable();
+
 
   RuleEntityTerminal(LexemPtr lexem);
   ~RuleEntityTerminal();
@@ -20,5 +25,14 @@ public:
 
   bool hasSameName(SyntaxTree* node) override;
 };
+
+class RuleEntityVariable : public RuleEntityTerminal
+{
+public:
+  RuleEntityVariable();
+  RuleEntityVariable(const RuleEntityTerminal& other);
+  VarInfo* var_info = 0;
+};
+
 
 #endif // RULEENTITYTERMINAL_H

@@ -71,8 +71,9 @@ private:
   void parseBlocksInner(SyntaxTreePtr &tree);
   static SyntaxTreePtr findVars(SyntaxTreePtr tree);
   static SyntaxTreePtr findBodyBlock(SyntaxTreePtr tree);
-  static void checkAndFillVarialeUse(std::vector<VarInfoPtr>& variables, SyntaxTreePtr block_body);
-  static void checkAndFillVarialeUse(std::vector<VarInfoPtr> &variables, TreeElementPtr body_element);
+  static void checkAndFillVariableUse(std::vector<VarInfoPtr>& variables, SyntaxTreePtr block_body);
+  static void checkAndFillVariableUse(std::vector<VarInfoPtr>& variables, TreeElementPtr body_element);
+  static string expressionType(TreeElementPtr expression);
 };
 
 #endif // CONTEXT_H

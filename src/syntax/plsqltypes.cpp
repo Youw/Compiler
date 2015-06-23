@@ -1,38 +1,37 @@
 #include "plsqltypes.h"
 
-#include <unordered_set>
 #include <unordered_map>
 
-static const std::unordered_set<string> TYPES = {
-  STR("NUMERIC"),
-  STR("PLS_INTEGER"),
-  STR("BINARY_INTEGER"),
-  STR("BINARY_FLOAT"),
-  STR("BINARY_DOUBLE"),
-  STR("NUMBER"),
-  STR("NATURAL"),
-  STR("NATURALN"),
-  STR("POSITIVE"),
-  STR("POSITIVEN"),
-  STR("SIGNTYPE"),
-  STR("SIMPLE_INTEGER"),
-  STR("DEC"),
-  STR("DECIMAL"),
-  STR("FLOAT"),
-  STR("INT"),
-  STR("INTEGER"),
-  STR("SMALLINT"),
-  STR("REAL"),
-  STR("CHARACTER"),
-  STR("CHAR"),
-  STR("VARCHAR2"),
-  STR("RAW"),
-  STR("NCHAR"),
-  STR("NVARCHAR2"),
-  STR("LONG"),
-  STR("ROWID"),
-  STR("UROWID"),
-  STR("BOOLEAN"),
+static const std::unordered_map<string,TypeGroup> TYPES = {
+    {STR("NUMERIC")        , TypeGroup::Numeric},
+    {STR("PLS_INTEGER")    , TypeGroup::Numeric},
+    {STR("BINARY_INTEGER") , TypeGroup::Numeric},
+    {STR("BINARY_FLOAT")   , TypeGroup::Numeric},
+    {STR("BINARY_DOUBLE")  , TypeGroup::Numeric},
+    {STR("NUMBER")         , TypeGroup::Numeric},
+    {STR("NATURAL")        , TypeGroup::Numeric},
+    {STR("NATURALN")       , TypeGroup::Numeric},
+    {STR("POSITIVE")       , TypeGroup::Numeric},
+    {STR("POSITIVEN")      , TypeGroup::Numeric},
+    {STR("SIGNTYPE")       , TypeGroup::Numeric},
+    {STR("SIMPLE_INTEGER") , TypeGroup::Numeric},
+    {STR("DEC")            , TypeGroup::Numeric},
+    {STR("DECIMAL")        , TypeGroup::Numeric},
+    {STR("FLOAT")          , TypeGroup::Numeric},
+    {STR("INT")            , TypeGroup::Numeric},
+    {STR("INTEGER")        , TypeGroup::Numeric},
+    {STR("SMALLINT")       , TypeGroup::Numeric},
+    {STR("REAL")           , TypeGroup::Numeric},
+    {STR("CHARACTER")      , TypeGroup::String},
+    {STR("CHAR")           , TypeGroup::String},
+    {STR("VARCHAR2")       , TypeGroup::String},
+    {STR("RAW")            , TypeGroup::Unknown},
+    {STR("NCHAR")          , TypeGroup::String},
+    {STR("NVARCHAR2")      , TypeGroup::String},
+    {STR("LONG")           , TypeGroup::Numeric},
+    {STR("ROWID")          , TypeGroup::Unknown},
+    {STR("UROWID")         , TypeGroup::Unknown},
+    {STR("BOOLEAN")        , TypeGroup::Boolean}
 };
 
 bool isPlSqlType(const string& identifier)
@@ -67,12 +66,26 @@ static const std::unordered_map<string, std::unordered_map<string, bool>> TYPE_C
   { STR("NVARCHAR2"),       {{ STR("NUMERIC"), 1 }, { STR("PLS_INTEGER"), 1 }, { STR("BINARY_INTEGER"), 1 }, { STR("BINARY_FLOAT"), 1 }, { STR("BINARY_DOUBLE"), 1 }, { STR("NUMBER"), 1 }, { STR("NATURAL"), 1 }, { STR("NATURALN"), 1 }, { STR("POSITIVE"), 1 }, { STR("POSITIVEN"), 1 }, { STR("SIGNTYPE"), 1 }, { STR("SIMPLE_INTEGER"), 1 }, { STR("DEC"), 1 }, { STR("DECIMAL"), 1 }, { STR("FLOAT"), 1 }, { STR("INT"), 1 }, { STR("INTEGER"), 1 }, { STR("SMALLINT"), 1 }, { STR("REAL"), 1 }, { STR("CHARACTER"), 1 }, { STR("CHAR"), 1 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 1 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 1 }, { STR("ROWID"), 1 }, { STR("UROWID"), 1 }, { STR("BOOLEAN"), 1 }} },
   { STR("RAW"),             {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 1 }, { STR("CHAR"), 1 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 1 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 1 }, { STR("ROWID"), 0 }, { STR("UROWID"), 0 }, { STR("BOOLEAN"), 0 }} },
   { STR("LONG"),            {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 1 }, { STR("CHAR"), 1 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 1 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 1 }, { STR("ROWID"), 0 }, { STR("UROWID"), 0 }, { STR("BOOLEAN"), 0 }} },
-  { STR("ROWID"),           {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 0 }, { STR("CHAR"), 0 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 0 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 0 }, { STR("ROWID"), 0 }, { STR("UROWID"), 0 }, { STR("BOOLEAN"), 0 }} },
-  { STR("UROWID"),          {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 0 }, { STR("CHAR"), 0 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 0 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 0 }, { STR("ROWID"), 0 }, { STR("UROWID"), 0 }, { STR("BOOLEAN"), 0 }} },
-  { STR("BOOLEAN"),         {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 1 }, { STR("CHAR"), 1 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 0 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 0 }, { STR("ROWID"), 0 }, { STR("UROWID"), 0 }, { STR("BOOLEAN"), 0 }} }
+  { STR("ROWID"),           {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 0 }, { STR("CHAR"), 0 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 0 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 0 }, { STR("ROWID"), 1 }, { STR("UROWID"), 0 }, { STR("BOOLEAN"), 0 }} },
+  { STR("UROWID"),          {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 0 }, { STR("CHAR"), 0 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 0 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 0 }, { STR("ROWID"), 0 }, { STR("UROWID"), 1 }, { STR("BOOLEAN"), 0 }} },
+  { STR("BOOLEAN"),         {{ STR("NUMERIC"), 0 }, { STR("PLS_INTEGER"), 0 }, { STR("BINARY_INTEGER"), 0 }, { STR("BINARY_FLOAT"), 0 }, { STR("BINARY_DOUBLE"), 0 }, { STR("NUMBER"), 0 }, { STR("NATURAL"), 0 }, { STR("NATURALN"), 0 }, { STR("POSITIVE"), 0 }, { STR("POSITIVEN"), 0 }, { STR("SIGNTYPE"), 0 }, { STR("SIMPLE_INTEGER"), 0 }, { STR("DEC"), 0 }, { STR("DECIMAL"), 0 }, { STR("FLOAT"), 0 }, { STR("INT"), 0 }, { STR("INTEGER"), 0 }, { STR("SMALLINT"), 0 }, { STR("REAL"), 0 }, { STR("CHARACTER"), 1 }, { STR("CHAR"), 1 }, { STR("VARCHAR2"), 1 }, { STR("RAW"), 0 }, { STR("NCHAR"), 1 }, { STR("NVARCHAR2"), 1 }, { STR("LONG"), 0 }, { STR("ROWID"), 0 }, { STR("UROWID"), 0 }, { STR("BOOLEAN"), 1 }} }
 };
 
 bool isConvertible(const string& type_from, const string& type_to)
 {
-    return isPlSqlType(type_from) && isPlSqlType(type_to) && TYPE_CONVERSIONS[type_from][type_to];
+    return isPlSqlType(type_from) && isPlSqlType(type_to) && TYPE_CONVERSIONS.at(type_from).at(type_to);
+}
+
+TypeGroup groupOfType(const string& type)
+{
+  if (isPlSqlType(type)) {
+      return TYPES.at(type);
+    }
+  return TypeGroup::Unknown;
+}
+
+bool isCompationConvertible(TypeGroup grp_left, TypeGroup grp_right) {
+  return grp_left==grp_right ||
+      (grp_left==TypeGroup::Numeric && grp_right==TypeGroup::String) ||
+      (grp_left==TypeGroup::String && grp_right==TypeGroup::Numeric);
 }
